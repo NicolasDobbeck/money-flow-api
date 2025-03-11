@@ -5,6 +5,8 @@ package br.com.fiap.money_flow_api.controller;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -24,6 +26,7 @@ import br.com.fiap.money_flow_api.model.Category;
 @RestController //component
 public class CategoryController {
     
+    private Logger log = LoggerFactory.getLogger(getClass());
     private List<Category> repository = new ArrayList<>();
 
     //Listar todas as categorias
@@ -38,7 +41,7 @@ public class CategoryController {
     @PostMapping("/categories")
     //@ResponseStatus(value = HttpStatus.CREATED)
     public ResponseEntity<Category> create(@RequestBody Category category){
-        System.out.println("Cadastrando.." + category.getNome());
+        log.info("Cadastrando.." + category.getNome());
         repository.add(category);
         return ResponseEntity.status(201).body(category);
     }
@@ -47,7 +50,7 @@ public class CategoryController {
     //POST :8080/categories/id
     @GetMapping("/categories/{id}")
     public Category get(@PathVariable Long id){
-        System.out.println("Buscando categoria by id " + id);
+        log.info("Buscando categoria by id " + id);
 
         return (getCategory(id));
     }
@@ -57,7 +60,7 @@ public class CategoryController {
     @DeleteMapping("/categories/{id}")
     @ResponseStatus(value = HttpStatus.NO_CONTENT) //204
     public void detroy(@PathVariable Long id){
-        System.out.println("Apagando categoria" + id);
+        log.info("Apagando categoria" + id);
 
         repository.remove(getCategory(id));
     }
@@ -66,7 +69,7 @@ public class CategoryController {
     //PUT :8080/categories/id + bbody
     @PutMapping("/categories/{id}")
     public Category update(@PathVariable Long id, @RequestBody Category category){
-        System.out.println("Atualizando categoria" + id + category);
+        log.info("Atualizando categoria" + id + category);
 
         repository.remove(getCategory(id));
         category.setId(id);
