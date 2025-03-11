@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
@@ -60,7 +61,7 @@ public class CategoryController {
     }
 
     //Apagar categoria
-
+    //DELETE :8080/categories/id
     @DeleteMapping("/categories/{id}")
     public ResponseEntity<Object> detroy(@PathVariable Long id){
         System.out.println("Apagando categoria" + id);
@@ -73,7 +74,30 @@ public class CategoryController {
         if (category.isEmpty()) {
            return ResponseEntity.notFound().build();
         }
-
-        return ResponseEntity.noContent().build();
+        
+        repository.remove(category.get());
+        return ResponseEntity.noContent().build(); //204
     }
+
+    //Editar categoria
+    //PUT :8080/categories/id + bbody
+    @PutMapping("/categories/{id}")
+    public ResponseEntity<Category> update(@PathVariable Long id, @RequestBody Category category){
+        System.out.println("Atualizando categoria" + id + category);
+
+        var oldCategory = repository
+            .stream()
+            .filter(c -> c.getId().equals(id))
+            .findFirst();
+
+        if (oldCategory.isEmpty()) {
+           return ResponseEntity.notFound().build();
+        }
+
+        repository.remove(oldCategory.get());
+        repository.add(category);
+
+        return ResponseEntity.ok(category);
+    }
+
 }

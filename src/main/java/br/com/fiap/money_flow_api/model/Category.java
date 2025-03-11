@@ -25,4 +25,8 @@ public class Category {
         return icon;
     }
 
+    @Override
+    public String toString() {
+        return "Category [id=" + id + ", nome=" + nome + ", icon=" + icon + "]";
+    }
 }
