@@ -93,6 +93,7 @@ public class CategoryController {
         }
 
         repository.remove(oldCategory.get());
+        category.setId(id);
         repository.add(category);
 
         return ResponseEntity.ok(category);

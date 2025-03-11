@@ -29,4 +29,16 @@ public class Category {
     public String toString() {
         return "Category [id=" + id + ", nome=" + nome + ", icon=" + icon + "]";
     }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public void setNome(String nome) {
+        this.nome = nome;
+    }
+
+    public void setIcon(String icon) {
+        this.icon = icon;
+    }
 }
