@@ -8,7 +8,7 @@ public class Category {
     private String icon;
     
     public Category(Long id, String nome, String icon) {
-        this.id = (id == null) ? new Random().nextLong() : id;
+        this.id = (id == null) ? Math.abs(new Random().nextLong()) : id;
         this.nome = nome;
         this.icon = icon;
     }
