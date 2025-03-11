@@ -4,6 +4,7 @@ package br.com.fiap.money_flow_api.controller;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -45,10 +46,7 @@ public class CategoryController {
     @GetMapping("/categories/{id}")
     public ResponseEntity<Category> get(@PathVariable Long id){
         System.out.println("Buscando categoria by id " + id);
-        var category = repository
-            .stream()
-            .filter(c -> c.getId().equals(id))
-            .findFirst();
+        var category = getCategory(id);
 
         if (category.isEmpty()) {
            return ResponseEntity.notFound().build();
@@ -64,10 +62,7 @@ public class CategoryController {
     public ResponseEntity<Object> detroy(@PathVariable Long id){
         System.out.println("Apagando categoria" + id);
 
-        var category = repository
-            .stream()
-            .filter(c -> c.getId().equals(id))
-            .findFirst();
+        var category = getCategory(id);
 
         if (category.isEmpty()) {
            return ResponseEntity.notFound().build();
@@ -83,10 +78,7 @@ public class CategoryController {
     public ResponseEntity<Category> update(@PathVariable Long id, @RequestBody Category category){
         System.out.println("Atualizando categoria" + id + category);
 
-        var oldCategory = repository
-            .stream()
-            .filter(c -> c.getId().equals(id))
-            .findFirst();
+        var oldCategory = getCategory(id);
 
         if (oldCategory.isEmpty()) {
            return ResponseEntity.notFound().build();
@@ -97,6 +89,13 @@ public class CategoryController {
         repository.add(category);
 
         return ResponseEntity.ok(category);
+    }
+
+    private Optional<Category> getCategory(Long id) {
+        return repository
+            .stream()
+            .filter(c -> c.getId().equals(id))
+            .findFirst();
     }
 
 }
